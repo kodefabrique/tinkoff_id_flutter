@@ -40,7 +40,6 @@ Add to Info.plist in your app so Tinkoff Bank App can open your app with incomin
 <array>
 <string>tru</string>  /// scheme
 <string>redirecturi</string> ///host
-<string>everylounge</string>
 </array>
 </dict>
 </array>
@@ -93,7 +92,7 @@ class SignInWithTinkoffIdUseCase {
     try {
       payloadNew = await _tinkoffId.updateToken(payload.refreshToken);
     } on PlatformException catch (e, s) {
-      return Result.failure("Failed to exchange refresh otken for access token: ${e.message!}");
+      return Result.failure("Failed to exchange refresh token for access token: ${e.message!}");
     }
 
     ///Sign out by refresh token
