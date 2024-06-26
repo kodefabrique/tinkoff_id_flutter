@@ -41,10 +41,10 @@ android {
     }
 
     defaultConfig {
-        minSdkVersion 21
+        minSdkVersion 23
     }
 }
 
 dependencies {
-    implementation "ru.tinkoff.core.tinkoffauth:tinkoff-id:1.0.1"
+    implementation "ru.tinkoff.core.tinkoffauth:tinkoff-id:1.2.1"
 }

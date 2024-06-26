@@ -28,7 +28,8 @@ abstract class TinkoffIdFlutterPlatform extends PlatformInterface {
   }
 
   Future<bool> isTinkoffAuthAvailable() {
-    throw UnimplementedError('isTinkoffAuthAvailable() has not been implemented.');
+    throw UnimplementedError(
+        'isTinkoffAuthAvailable() has not been implemented.');
   }
 
   Future startTinkoffAuth(String redirectUri) {
@@ -36,7 +37,8 @@ abstract class TinkoffIdFlutterPlatform extends PlatformInterface {
   }
 
   Future<Map<String, dynamic>> getTokenPayload(String incomingUri) {
-    throw UnimplementedError('getTinkoffTokenPayload() has not been implemented.');
+    throw UnimplementedError(
+        'getTinkoffTokenPayload() has not been implemented.');
   }
 
   Future<Map<String, dynamic>> updateToken(String refreshToken) {
@@ -44,6 +46,7 @@ abstract class TinkoffIdFlutterPlatform extends PlatformInterface {
   }
 
   Future<bool> signOutByRefreshToken(String refreshToken) {
-    throw UnimplementedError('signOutByRefreshToken() has not been implemented.');
+    throw UnimplementedError(
+        'signOutByRefreshToken() has not been implemented.');
   }
 }
