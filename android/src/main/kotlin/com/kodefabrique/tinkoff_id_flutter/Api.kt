@@ -30,7 +30,7 @@ fun init(
 }
 
 fun isTinkoffAuthAvailable(result: MethodChannel.Result) {
-    result.success(tinkoffIdAuth.isTinkoffAuthAvailable())
+    result.success(tinkoffIdAuth.isTinkoffAppAuthAvailable())
 }
 
 
@@ -40,20 +40,7 @@ fun startTinkoffAuth(
     activity: Activity,
 ) {
     val uri = Uri.parse(redirectUri)
-    val intent = tinkoffIdAuth.createTinkoffAuthIntent(uri)
-    val tinkoffPackages =
-        activity.applicationContext.packageManager.queryIntentActivities(intent, 0)
-            .filter { it.activityInfo.packageName.contains("tinkoff") }
-            .map { Intent(intent.action, intent.data).setPackage(it.activityInfo.packageName) }
-    if (tinkoffPackages.isNotEmpty()) {
-        val chooserIntent = Intent.createChooser(tinkoffPackages[0], "Open with Tinkoff")
-
-        if (tinkoffPackages.size > 1) {
-            val newList = tinkoffPackages.subList(1, tinkoffPackages.size).toTypedArray()
-            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, newList)
-        }
-        activity.startActivity(chooserIntent)
-    }
+    activity.startActivity(tinkoffIdAuth.createTinkoffAuthIntent(uri))
     result.success(null)
 }
 
