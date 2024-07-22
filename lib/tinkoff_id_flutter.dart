@@ -1,5 +1,6 @@
 import 'package:flutter/services.dart';
-import 'entities/token_payload.dart';
+import 'package:tinkoff_id_flutter/entities/token_payload.dart';
+
 import 'hidden/tinkoff_id_flutter_platform_interface.dart';
 
 ///Object with which you can manage the login via Tinkoff ID SDK.

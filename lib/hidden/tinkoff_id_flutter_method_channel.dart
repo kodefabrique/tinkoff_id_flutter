@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+
 import 'tinkoff_id_flutter_platform_interface.dart';
 
 /// An implementation of [TinkoffIdFlutterPlatform] that uses method channels.
@@ -10,7 +11,8 @@ class MethodChannelTinkoffIdFlutter extends TinkoffIdFlutterPlatform {
 
   /// The background method channel used to interact with the native platform.
   @visibleForTesting
-  final methodChannelBackground = const MethodChannel('tinkoff_id_flutter_background');
+  final methodChannelBackground =
+      const MethodChannel('tinkoff_id_flutter_background');
 
   @override
   Future<void> init(String clientId, String redirectUri, bool debugIOS) async =>
