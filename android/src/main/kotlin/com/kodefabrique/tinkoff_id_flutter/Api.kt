@@ -8,11 +8,11 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import io.flutter.plugin.common.MethodChannel
-import ru.tinkoff.core.tinkoffId.TinkoffIdAuth
-import ru.tinkoff.core.tinkoffId.TinkoffIdStatusCode
-import ru.tinkoff.core.tinkoffId.TinkoffTokenPayload
+import ru.tbank.core.tid.TidAuth
+import ru.tbank.core.tid.TidStatusCode
+import ru.tbank.core.tid.TidTokenPayload
 
-private lateinit var tinkoffIdAuth: TinkoffIdAuth
+private lateinit var TidAuth: TidAuth
 
 fun init(
     clientId: String,
@@ -20,8 +20,8 @@ fun init(
     result: MethodChannel.Result,
     activityContext: Context
 ) {
-    tinkoffIdAuth =
-        TinkoffIdAuth(
+    TidAuth =
+        TidAuth(
             context = activityContext,
             clientId = clientId,
             redirectUri = redirectUri
@@ -30,7 +30,7 @@ fun init(
 }
 
 fun isTinkoffAuthAvailable(result: MethodChannel.Result) {
-    result.success(tinkoffIdAuth.isTinkoffAppAuthAvailable())
+    result.success(TidAuth.isTBankAppAuthAvailable())
 }
 
 
@@ -40,7 +40,8 @@ fun startTinkoffAuth(
     activity: Activity,
 ) {
     val uri = Uri.parse(redirectUri)
-    activity.startActivity(tinkoffIdAuth.createTinkoffAuthIntent(uri))
+    val intent = TidAuth.createTidAuthIntent(uri)
+    activity.startActivity(intent)
     result.success(null)
 }
 
@@ -48,9 +49,9 @@ fun startTinkoffAuth(
 fun getTinkoffTokenPayload(incomingUri: String, result: MethodChannel.Result) {
     try {
         val uri = Uri.parse(incomingUri)
-        when (tinkoffIdAuth.getStatusCode(uri)) {
-            TinkoffIdStatusCode.SUCCESS -> {}
-            TinkoffIdStatusCode.CANCELLED_BY_USER -> {
+        when (TidAuth.getStatusCode(uri)) {
+            TidStatusCode.SUCCESS -> {}
+            TidStatusCode.CANCELLED_BY_USER -> {
                 Handler(Looper.getMainLooper()).post {
                     result.error("getTinkoffTokenPayload", "Login canceled by user.", null)
                 }
@@ -69,8 +70,8 @@ fun getTinkoffTokenPayload(incomingUri: String, result: MethodChannel.Result) {
             }
         }
 
-        val payload: TinkoffTokenPayload =
-            tinkoffIdAuth.getTinkoffTokenPayload(uri).getResponse()
+        val payload: TidTokenPayload =
+            TidAuth.getTidTokenPayload(uri).getResponse()
         Handler(Looper.getMainLooper()).post {
             result.success(
                 hashMapOf(
@@ -91,8 +92,8 @@ fun getTinkoffTokenPayload(incomingUri: String, result: MethodChannel.Result) {
 
 fun updateToken(refreshToken: String, result: MethodChannel.Result) {
     try {
-        val payload: TinkoffTokenPayload =
-            tinkoffIdAuth.obtainTokenPayload(refreshToken).getResponse()
+        val payload: TidTokenPayload =
+            TidAuth.obtainTokenPayload(refreshToken).getResponse()
         val map = mapOf(
             "accessToken" to payload.accessToken,
             "idToken" to payload.idToken,
@@ -112,7 +113,7 @@ fun updateToken(refreshToken: String, result: MethodChannel.Result) {
 
 fun signOutByRefreshToken(refreshToken: String, result: MethodChannel.Result) {
     val isSuccess = try {
-        tinkoffIdAuth.signOutByRefreshToken(refreshToken).getResponse()
+        TidAuth.signOutByRefreshToken(refreshToken).getResponse()
         true
     } catch (e: Exception) {
         Log.d("tinkoff_id", e.message, e)
