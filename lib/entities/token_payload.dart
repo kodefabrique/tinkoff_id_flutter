@@ -12,7 +12,7 @@ class TokenPayload {
     required this.refreshToken,
   });
 
-  factory TokenPayload.fromJson(Map<String, dynamic> map) {
+  factory TokenPayload.fromJson(Map<dynamic, dynamic> map) {
     return TokenPayload(
       accessToken: map['accessToken'] as String,
       expiresIn: map['expiresIn'] as int,

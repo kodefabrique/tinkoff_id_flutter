@@ -32,6 +32,11 @@ abstract class TinkoffIdFlutterPlatform extends PlatformInterface {
         'isTinkoffAuthAvailable() has not been implemented.');
   }
 
+  Future<bool> handleCallbackUrl(String url) {
+    throw UnimplementedError(
+        'handleCallbackUrl() has not been implemented.');
+  }
+
   Future startTinkoffAuth(String redirectUri) {
     throw UnimplementedError('startTinkoffAuth() has not been implemented.');
   }
