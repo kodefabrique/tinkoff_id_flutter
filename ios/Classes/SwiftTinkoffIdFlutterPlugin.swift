@@ -18,10 +18,12 @@ public class SwiftTinkoffIdFlutterPlugin: NSObject, FlutterPlugin {
           initTinkoff(clientId: arguments["clientId"] as! String, redirectUri: arguments["redirectUri"] as! String, debug: arguments["debugIOS"] as! Bool, result: result)
       case "isTinkoffAuthAvailable":
           isTinkoffAuthAvailable(result:result)
+      case "handleCallbackUrl":
+          handleCallbackUrl(url: arguments["url"] as! String, result:result)
       case "startTinkoffAuth":
           startTinkoffAuth(result: result)
-      case "getTinkoffTokenPayload":
-          getTinkoffTokenPayload( incomingUri: arguments["incomingUri"] as! String, result: result)
+      //case "getTinkoffTokenPayload":
+              //getTinkoffTokenPayload( incomingUri: arguments["incomingUri"] as! String, //result: result)
       case "updateToken": updateToken(refreshToken: arguments["refreshToken"] as! String, result: result)
       case "signOutByRefreshToken": signOutByRefreshToken(refreshToken: arguments["refreshToken"] as! String, result:result)
       default:
