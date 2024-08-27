@@ -15,7 +15,7 @@ Tinkoff ID Native Android And iOS Flutter Realization
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
-  s.dependency 'TinkoffID'
+  s.dependency 'T-ID'
   s.static_framework = true
   s.platform = :ios, '13.0'
 

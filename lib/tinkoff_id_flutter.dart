@@ -13,6 +13,9 @@ class TinkoffIdFlutter {
   Future<bool> isTinkoffAuthAvailable() =>
       TinkoffIdFlutterPlatform.instance.isTinkoffAuthAvailable();
 
+  Future<bool> handleCallbackUrl(String url) =>
+      TinkoffIdFlutterPlatform.instance.handleCallbackUrl(url);
+
   ///Launches the Tinkoff Bank application, where the user enters authorization data. No exceptions throws
   Future startTinkoffAuth(String redirectUri) =>
       TinkoffIdFlutterPlatform.instance.startTinkoffAuth(redirectUri);

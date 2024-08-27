@@ -15,16 +15,31 @@ class MethodChannelTinkoffIdFlutter extends TinkoffIdFlutterPlatform {
       const MethodChannel('tinkoff_id_flutter_background');
 
   @override
-  Future<void> init(String clientId, String redirectUri, bool debugIOS) async =>
-      await methodChannel.invokeMethod('init', {
-        "clientId": clientId,
-        "redirectUri": redirectUri,
-        "debugIOS": debugIOS,
-      });
+  Future<void> init(String clientId, String redirectUri, bool debugIOS) async {
+    await methodChannel.invokeMethod('init', {
+      "clientId": clientId,
+      "redirectUri": redirectUri,
+      "debugIOS": debugIOS,
+    });
+
+    methodChannel.setMethodCallHandler(_handleNativeMessage);
+  }
+
+  Future<void> _handleNativeMessage(MethodCall call) async {
+    if (call.method == "handleCallbackUrl") {
+      final Map<dynamic, dynamic> args = call.arguments as Map<dynamic, dynamic>;
+      final String url = args['url'] as String;
+      handleCallbackUrl(url);
+    }
+  }
 
   @override
   Future<bool> isTinkoffAuthAvailable() async =>
       await methodChannel.invokeMethod('isTinkoffAuthAvailable', {});
+
+  @override
+  Future<bool> handleCallbackUrl(String url) async =>
+      await methodChannel.invokeMethod('handleCallbackUrl', {"url" : url});
 
   @override
   Future startTinkoffAuth(String redirectUri) async => await methodChannel
