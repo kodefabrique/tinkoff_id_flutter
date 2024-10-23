@@ -61,7 +61,7 @@ fun getTinkoffTokenPayload(incomingUri: String, result: MethodChannel.Result) {
                 Handler(Looper.getMainLooper()).post {
                     result.error(
                         "getTinkoffTokenPayload",
-                        "Failed to get token from Tinkoff Bank app.",
+                        "Failed to get token from T-Bank app.",
                         null
                     )
 
