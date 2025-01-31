@@ -43,6 +43,8 @@ android {
     defaultConfig {
         minSdkVersion 23
     }
+
+    namespace "com.kodefabrique.tinkoff_id_flutter"
 }
 
 dependencies {
