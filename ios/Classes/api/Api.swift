@@ -34,20 +34,36 @@ func isTinkoffAuthAvailable( result: FlutterResult) {
 func handleCallbackUrl(url: String, result: FlutterResult) {
     tinkoffId?.handleCallbackUrl(URL(string: url)!)
 }
-
 func startTinkoffAuth(result: @escaping FlutterResult) {
-    tinkoffId?.startTAuth{ resultLocal in
+    tinkoffId?.startTAuth { resultLocal in
         do {
-            let  tokenPayload = try resultLocal.get()
-            let dict : [String: Any] = ["accessToken": tokenPayload.accessToken,"refreshToken": tokenPayload.refreshToken ?? "", "idToken": tokenPayload.idToken, "expiresIn": Int(tokenPayload.expirationTimeout)]
+            let tokenPayload = try resultLocal.get()
+            let dict: [String: Any] = [
+                "accessToken": tokenPayload.accessToken,
+                "refreshToken": tokenPayload.refreshToken ?? "",
+                "idToken": tokenPayload.idToken,
+                "expiresIn": Int(tokenPayload.expirationTimeout)
+            ]
             result(dict)
+        } catch let error as TAuthError {
+            switch error {
+            case .cancelledByUser:
+                result(FlutterError(code: "getTinkoffTokenPayload",
+                                                message: "Login canceled by user",
+                                                details: nil))
+            default:
+                result(FlutterError(code: "getTinkoffTokenPayload",
+                                    message: error.localizedDescription,
+                                    details: nil))
+            }
         } catch {
             result(FlutterError(code: "getTinkoffTokenPayload",
-                                           message: error.localizedDescription,
-                                           details: nil))
+                                message: error.localizedDescription,
+                                details: nil))
         }
     }
 }
+
 
 func updateToken(refreshToken: String, result: @escaping FlutterResult) {
     tinkoffId!.obtainTokenPayload(using: refreshToken) { r in
