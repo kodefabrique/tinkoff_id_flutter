@@ -2,7 +2,6 @@ package com.kodefabrique.tinkoff_id_flutter
 
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.net.Uri
 import android.os.Handler
 import android.os.Looper
@@ -12,7 +11,7 @@ import ru.tbank.core.tid.TidAuth
 import ru.tbank.core.tid.TidStatusCode
 import ru.tbank.core.tid.TidTokenPayload
 
-private lateinit var TidAuth: TidAuth
+private lateinit var tidAuth: TidAuth
 
 fun init(
     clientId: String,
@@ -20,7 +19,7 @@ fun init(
     result: MethodChannel.Result,
     activityContext: Context
 ) {
-    TidAuth =
+    tidAuth =
         TidAuth(
             context = activityContext,
             clientId = clientId,
@@ -30,7 +29,7 @@ fun init(
 }
 
 fun isTinkoffAuthAvailable(result: MethodChannel.Result) {
-    result.success(TidAuth.isTBankAppAuthAvailable())
+    result.success(tidAuth.isTBankAppAuthAvailable())
 }
 
 
@@ -40,7 +39,7 @@ fun startTinkoffAuth(
     activity: Activity,
 ) {
     val uri = Uri.parse(redirectUri)
-    val intent = TidAuth.createTidAuthIntent(uri)
+    val intent = tidAuth.createTidAuthIntent(uri)
     activity.startActivity(intent)
     result.success(null)
 }
@@ -49,7 +48,7 @@ fun startTinkoffAuth(
 fun getTinkoffTokenPayload(incomingUri: String, result: MethodChannel.Result) {
     try {
         val uri = Uri.parse(incomingUri)
-        when (TidAuth.getStatusCode(uri)) {
+        when (tidAuth.getStatusCode(uri)) {
             TidStatusCode.SUCCESS -> {}
             TidStatusCode.CANCELLED_BY_USER -> {
                 Handler(Looper.getMainLooper()).post {
@@ -71,7 +70,7 @@ fun getTinkoffTokenPayload(incomingUri: String, result: MethodChannel.Result) {
         }
 
         val payload: TidTokenPayload =
-            TidAuth.getTidTokenPayload(uri).getResponse()
+            tidAuth.getTidTokenPayload(uri).getResponse()
         Handler(Looper.getMainLooper()).post {
             result.success(
                 hashMapOf(
@@ -93,7 +92,7 @@ fun getTinkoffTokenPayload(incomingUri: String, result: MethodChannel.Result) {
 fun updateToken(refreshToken: String, result: MethodChannel.Result) {
     try {
         val payload: TidTokenPayload =
-            TidAuth.obtainTokenPayload(refreshToken).getResponse()
+            tidAuth.obtainTokenPayload(refreshToken).getResponse()
         val map = mapOf(
             "accessToken" to payload.accessToken,
             "idToken" to payload.idToken,
@@ -113,7 +112,7 @@ fun updateToken(refreshToken: String, result: MethodChannel.Result) {
 
 fun signOutByRefreshToken(refreshToken: String, result: MethodChannel.Result) {
     val isSuccess = try {
-        TidAuth.signOutByRefreshToken(refreshToken).getResponse()
+        tidAuth.signOutByRefreshToken(refreshToken).getResponse()
         true
     } catch (e: Exception) {
         Log.d("tinkoff_id", e.message, e)
