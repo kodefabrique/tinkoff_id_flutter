@@ -50,7 +50,7 @@ func startTinkoffAuth(result: @escaping FlutterResult) {
             case .cancelledByUser:
                 result(FlutterError(code: "getTinkoffTokenPayload",
                                                 message: "Login canceled by user",
-                                                details: nil)),
+                                                details: nil))
             case .failedToObtainToken:
                 result(FlutterError(code: "getTinkoffTokenPayload",
                                                message: "Authorization could not be completed after returning from the app",
