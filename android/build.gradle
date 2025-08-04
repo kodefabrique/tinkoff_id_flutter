@@ -25,6 +25,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
+    namespace 'com.kodefabrique.tinkoff_id_flutter'
     compileSdk 34
 
     compileOptions {
