@@ -3,7 +3,9 @@ import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:tinkoff_id_flutter/hidden/tinkoff_id_flutter_method_channel.dart';
 import 'package:tinkoff_id_flutter/hidden/tinkoff_id_flutter_platform_interface.dart';
 
-class MockTinkoffIdFlutterPlatform with MockPlatformInterfaceMixin implements TinkoffIdFlutterPlatform {
+class MockTinkoffIdFlutterPlatform
+    with MockPlatformInterfaceMixin
+    implements TinkoffIdFlutterPlatform {
   @override
   Future<void> init(String clientId, String redirectUri, bool debugIOS) {
     // TODO: implement init
@@ -39,10 +41,17 @@ class MockTinkoffIdFlutterPlatform with MockPlatformInterfaceMixin implements Ti
     // TODO: implement updateToken
     throw UnimplementedError();
   }
+
+  @override
+  Future<bool> handleCallbackUrl(String url) {
+    // TODO: implement handleCallbackUrl
+    throw UnimplementedError();
+  }
 }
 
 void main() {
-  final TinkoffIdFlutterPlatform initialPlatform = TinkoffIdFlutterPlatform.instance;
+  final TinkoffIdFlutterPlatform initialPlatform =
+      TinkoffIdFlutterPlatform.instance;
 
   test('$MethodChannelTinkoffIdFlutter is the default instance', () {
     expect(initialPlatform, isInstanceOf<MethodChannelTinkoffIdFlutter>());
